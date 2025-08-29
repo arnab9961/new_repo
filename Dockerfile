@@ -15,7 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source
 COPY bot.py ./
-COPY submissions_data.json ./ 2>/dev/null || true
+# Create empty data file placeholder (will be persisted via volume at runtime)
+RUN [ -f submissions_data.json ] || echo "{}" > submissions_data.json
 
 # Copy example env (not used in production unless overridden)
 COPY .env.example ./
