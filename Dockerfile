@@ -15,8 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source
 COPY bot.py ./
-# Create empty data file placeholder (will be persisted via volume at runtime)
-RUN [ -f submissions_data.json ] || echo "{}" > submissions_data.json
+
+# Create data directory (volume will mount here)
+RUN mkdir -p /data
 
 # Copy example env (not used in production unless overridden)
 COPY .env.example ./
@@ -25,7 +26,8 @@ COPY .env.example ./
 EXPOSE 7890
 
 # Default env placeholders (override at runtime)
-ENV HEALTH_PORT=7890
+ENV HEALTH_PORT=7890 \
+  DATA_DIR=/data
 
 # Run bot
 CMD ["python", "bot.py"]

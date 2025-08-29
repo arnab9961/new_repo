@@ -11,7 +11,7 @@ services:
     ports:
       - "7890:7890"
     volumes:
-      - submissions_data:/app/submissions_data.json
+      - submissions_data:/data
     # If you enable members intent later, no change here needed
 volumes:
   submissions_data:

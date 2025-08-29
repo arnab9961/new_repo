@@ -16,8 +16,14 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 CHANNEL_ID_RAW = os.getenv("CHANNEL_ID")
 CHANNEL_ID = int(CHANNEL_ID_RAW) if CHANNEL_ID_RAW and CHANNEL_ID_RAW.isdigit() else 0
 
-# Data persistence file
-DATA_FILE = "submissions_data.json"
+# Data persistence location
+# If DATA_DIR env var is set (used in container), store file inside that directory.
+DATA_DIR = os.getenv("DATA_DIR")
+if DATA_DIR:
+    os.makedirs(DATA_DIR, exist_ok=True)
+    DATA_FILE = os.path.join(DATA_DIR, "submissions_data.json")
+else:
+    DATA_FILE = "submissions_data.json"
 
 # Structure: { "YYYY-MM-DD": [user_id, ...] }
 submissions_by_day: dict[str, set[int]] = {}
